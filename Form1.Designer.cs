@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.cbIsGridDrawing = new System.Windows.Forms.CheckBox();
             this.bStop = new System.Windows.Forms.Button();
             this.bStart = new System.Windows.Forms.Button();
             this.nudDensity = new System.Windows.Forms.NumericUpDown();
@@ -37,7 +38,11 @@
             this.nudResolution = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.gameTimer = new System.Windows.Forms.Timer(this.components);
+            this.timerGame = new System.Windows.Forms.Timer(this.components);
+            this.labelFPS = new System.Windows.Forms.Label();
+            this.timerFPS = new System.Windows.Forms.Timer(this.components);
+            this.nudInterval = new System.Windows.Forms.NumericUpDown();
+            this.labelSpeed = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -45,6 +50,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudDensity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudResolution)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -58,6 +64,10 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.nudInterval);
+            this.splitContainer1.Panel1.Controls.Add(this.labelSpeed);
+            this.splitContainer1.Panel1.Controls.Add(this.labelFPS);
+            this.splitContainer1.Panel1.Controls.Add(this.cbIsGridDrawing);
             this.splitContainer1.Panel1.Controls.Add(this.bStop);
             this.splitContainer1.Panel1.Controls.Add(this.bStart);
             this.splitContainer1.Panel1.Controls.Add(this.nudDensity);
@@ -72,10 +82,22 @@
             this.splitContainer1.SplitterDistance = 230;
             this.splitContainer1.TabIndex = 0;
             // 
+            // cbIsGridDrawing
+            // 
+            this.cbIsGridDrawing.AutoSize = true;
+            this.cbIsGridDrawing.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cbIsGridDrawing.Location = new System.Drawing.Point(13, 122);
+            this.cbIsGridDrawing.Name = "cbIsGridDrawing";
+            this.cbIsGridDrawing.Size = new System.Drawing.Size(55, 20);
+            this.cbIsGridDrawing.TabIndex = 1;
+            this.cbIsGridDrawing.Text = "Grid";
+            this.cbIsGridDrawing.UseVisualStyleBackColor = true;
+            this.cbIsGridDrawing.CheckedChanged += new System.EventHandler(this.cbIsGridDrawing_CheckedChanged);
+            // 
             // bStop
             // 
             this.bStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bStop.Location = new System.Drawing.Point(121, 59);
+            this.bStop.Location = new System.Drawing.Point(121, 85);
             this.bStop.Name = "bStop";
             this.bStop.Size = new System.Drawing.Size(102, 31);
             this.bStop.TabIndex = 5;
@@ -86,7 +108,7 @@
             // bStart
             // 
             this.bStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bStart.Location = new System.Drawing.Point(10, 59);
+            this.bStart.Location = new System.Drawing.Point(10, 85);
             this.bStart.Name = "bStart";
             this.bStart.Size = new System.Drawing.Size(102, 31);
             this.bStart.TabIndex = 4;
@@ -98,6 +120,11 @@
             // 
             this.nudDensity.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.nudDensity.Location = new System.Drawing.Point(103, 31);
+            this.nudDensity.Maximum = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
             this.nudDensity.Minimum = new decimal(new int[] {
             2,
             0,
@@ -108,7 +135,7 @@
             this.nudDensity.TabIndex = 3;
             this.nudDensity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nudDensity.Value = new decimal(new int[] {
-            2,
+            25,
             0,
             0,
             0});
@@ -133,7 +160,7 @@
             0,
             0});
             this.nudResolution.Minimum = new decimal(new int[] {
-            1,
+            2,
             0,
             0,
             0});
@@ -142,7 +169,7 @@
             this.nudResolution.TabIndex = 1;
             this.nudResolution.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nudResolution.Value = new decimal(new int[] {
-            3,
+            10,
             0,
             0,
             0});
@@ -167,10 +194,65 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             // 
-            // gameTimer
+            // timerGame
             // 
-            this.gameTimer.Interval = 40;
-            this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
+            this.timerGame.Interval = 50;
+            this.timerGame.Tick += new System.EventHandler(this.gameTimer_Tick);
+            // 
+            // labelFPS
+            // 
+            this.labelFPS.AutoSize = true;
+            this.labelFPS.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelFPS.Location = new System.Drawing.Point(10, 181);
+            this.labelFPS.Name = "labelFPS";
+            this.labelFPS.Size = new System.Drawing.Size(97, 16);
+            this.labelFPS.TabIndex = 6;
+            this.labelFPS.Text = "FPS (GPS): 0";
+            // 
+            // timerFPS
+            // 
+            this.timerFPS.Interval = 1000;
+            this.timerFPS.Tick += new System.EventHandler(this.timerFPS_Tick);
+            // 
+            // nudInterval
+            // 
+            this.nudInterval.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.nudInterval.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudInterval.Location = new System.Drawing.Point(103, 57);
+            this.nudInterval.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudInterval.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudInterval.Name = "nudInterval";
+            this.nudInterval.Size = new System.Drawing.Size(120, 22);
+            this.nudInterval.TabIndex = 8;
+            this.nudInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nudInterval.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.nudInterval.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // labelSpeed
+            // 
+            this.labelSpeed.AutoSize = true;
+            this.labelSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelSpeed.Location = new System.Drawing.Point(10, 59);
+            this.labelSpeed.Name = "labelSpeed";
+            this.labelSpeed.Size = new System.Drawing.Size(92, 16);
+            this.labelSpeed.TabIndex = 7;
+            this.labelSpeed.Text = "Interval (ms)";
             // 
             // Form1
             // 
@@ -179,7 +261,7 @@
             this.ClientSize = new System.Drawing.Size(1261, 753);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
-            this.Text = "Generation: 0";
+            this.Text = "Game of Life";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
@@ -189,6 +271,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudDensity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudResolution)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -203,7 +286,12 @@
         private System.Windows.Forms.NumericUpDown nudResolution;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Timer gameTimer;
+        private System.Windows.Forms.Timer timerGame;
+        private System.Windows.Forms.CheckBox cbIsGridDrawing;
+        private System.Windows.Forms.Label labelFPS;
+        private System.Windows.Forms.Timer timerFPS;
+        private System.Windows.Forms.NumericUpDown nudInterval;
+        private System.Windows.Forms.Label labelSpeed;
     }
 }
 
