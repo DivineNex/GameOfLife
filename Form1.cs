@@ -17,8 +17,8 @@ namespace GameOfLife
         private Graphics _graphics;
         private int _resolution;
         private SolidBrush _brush;
-        private Pen _pen;
         private bool _isGrid;
+        private bool _isHeatmapEnabled;
 
         public Form1()
         {
@@ -47,7 +47,6 @@ namespace GameOfLife
             Text = $"Current generation: {gameEngine.CurrentGeneration}";
 
             _brush = new SolidBrush(Color.FromArgb(100, 87, 166));
-            _pen = new Pen(Color.FromArgb(92, 39, 81));
 
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             _graphics = Graphics.FromImage(pictureBox1.Image);
@@ -75,13 +74,56 @@ namespace GameOfLife
             {
                 for (int y = 0; y < field.GetLength(1); y++)
                 {
-                    if (field[x, y])
+                    if (!_isHeatmapEnabled)
                     {
+                        _brush.Color = Color.FromArgb(100, 87, 166);
+                        if (field[x, y].isAlive)
+                        {
+                            if (_isGrid)
+                                _graphics.FillRectangle(_brush, x * _resolution, y * _resolution, _resolution - 1, _resolution - 1);
+                            else
+                                _graphics.FillRectangle(_brush, x * _resolution, y * _resolution, _resolution, _resolution);
+                        }
+                    }
+                    else
+                    {
+                        switch (field[x,y].neighborCount)
+                        {
+                            case 0:
+                                _brush.Color = Color.FromArgb(49, 105, 209);
+                                break;
+                            case 1:
+                                _brush.Color = Color.FromArgb(76, 151, 177);
+                                break;
+                            case 2:
+                                _brush.Color = Color.FromArgb(130, 155, 64);
+                                break;
+                            case 3:
+                                _brush.Color = Color.FromArgb(208, 200, 55);
+                                break;
+                            case 4:
+                                _brush.Color = Color.FromArgb(242, 212, 53);
+                                break;
+                            case 5:
+                                _brush.Color = Color.FromArgb(196, 137, 34);
+                                break;
+                            case 6:
+                                _brush.Color = Color.FromArgb(193, 111, 28);
+                                break;
+                            case 7:
+                                _brush.Color = Color.FromArgb(190, 61, 15);
+                                break;
+                            case 8:
+                                _brush.Color = Color.FromArgb(187, 25, 7);
+                                break;
+                        }
+
                         if (_isGrid)
                             _graphics.FillRectangle(_brush, x * _resolution, y * _resolution, _resolution - 1, _resolution - 1);
                         else
                             _graphics.FillRectangle(_brush, x * _resolution, y * _resolution, _resolution, _resolution);
                     }
+
                 }
             }
 
@@ -137,6 +179,12 @@ namespace GameOfLife
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             timerGame.Interval = (int)nudInterval.Value;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (timerGame.Enabled)
+                _isHeatmapEnabled = cbHeatmapMode.Checked;
         }
     }
 }

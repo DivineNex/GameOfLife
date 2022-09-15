@@ -10,10 +10,16 @@ using System.Threading;
 
 namespace GameOfLife
 {
+    public struct Cell
+    {
+        public bool isAlive;
+        public byte neighborCount;
+    }
+
     public class GameEngine
     {
         public uint CurrentGeneration { get; private set; }
-        private bool[,] _field;
+        private Cell[,] _field;
         private readonly int _rows;
         private readonly int _cols;
         private DateTime _lastCheckTime = DateTime.Now;
@@ -23,35 +29,37 @@ namespace GameOfLife
         {
             _rows = rows;
             _cols = cols;
-            _field = new bool[cols, rows];
+            _field = new Cell[cols, rows];
             Random _random = new Random();
 
             for (int x = 0; x < _cols; x++)
             {
                 for (int y = 0; y < _rows; y++)
                 {
-                    _field[x, y] = _random.Next(density) == 0;
+                    _field[x, y].isAlive = _random.Next(density) == 0;
                 }
             }
         }
 
         public void NextGeneration()
         {
-            var newField = new bool[_cols, _rows];
+            var newField = new Cell[_cols, _rows];
 
             for (int x = 0; x < _cols; x++)
             {
                 for (int y = 0; y < _rows; y++)
                 {
                     var neighborCount = CountNeighbors(x, y);
-                    var hasLife = _field[x, y];
+                    var hasLife = _field[x, y].isAlive;
 
                     if (!hasLife && neighborCount == 3)
-                        newField[x, y] = true;
+                        newField[x, y].isAlive = true;
                     else if (hasLife && neighborCount < 2 || neighborCount > 3)
-                        newField[x, y] = false;
+                        newField[x, y].isAlive = false;
                     else
                         newField[x, y] = _field[x, y];
+                    newField[x, y].neighborCount = (byte)neighborCount;
+
                 }
             }
             _field = newField;
@@ -59,9 +67,9 @@ namespace GameOfLife
             OnMapUpdated();
         }
 
-        public bool[,] GetCurrentGeneration()
+        public Cell[,] GetCurrentGeneration()
         {
-            var result = new bool[_cols, _rows];
+            var result = new Cell[_cols, _rows];
             for (int x = 0; x < _cols; x++)
             {
                 for (int y = 0; y < _rows; y++)
@@ -84,7 +92,7 @@ namespace GameOfLife
                     var row = (y + j + _rows) % _rows;
 
                     var isSelfChecking = col == x && row == y;
-                    var hasLife = _field[col, row];
+                    var hasLife = _field[col, row].isAlive;
 
                     if (hasLife && !isSelfChecking)
                         count++;
@@ -102,7 +110,7 @@ namespace GameOfLife
         {
             if (ValidateCellPosition(x, y))
             {
-                _field[x, y] = state;
+                _field[x, y].isAlive = state;
             }
         }
 

@@ -30,6 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.nudInterval = new System.Windows.Forms.NumericUpDown();
+            this.labelSpeed = new System.Windows.Forms.Label();
+            this.labelFPS = new System.Windows.Forms.Label();
             this.cbIsGridDrawing = new System.Windows.Forms.CheckBox();
             this.bStop = new System.Windows.Forms.Button();
             this.bStart = new System.Windows.Forms.Button();
@@ -39,18 +42,16 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timerGame = new System.Windows.Forms.Timer(this.components);
-            this.labelFPS = new System.Windows.Forms.Label();
             this.timerFPS = new System.Windows.Forms.Timer(this.components);
-            this.nudInterval = new System.Windows.Forms.NumericUpDown();
-            this.labelSpeed = new System.Windows.Forms.Label();
+            this.cbHeatmapMode = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudDensity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudResolution)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -64,6 +65,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.cbHeatmapMode);
             this.splitContainer1.Panel1.Controls.Add(this.nudInterval);
             this.splitContainer1.Panel1.Controls.Add(this.labelSpeed);
             this.splitContainer1.Panel1.Controls.Add(this.labelFPS);
@@ -81,6 +83,56 @@
             this.splitContainer1.Size = new System.Drawing.Size(1261, 753);
             this.splitContainer1.SplitterDistance = 230;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // nudInterval
+            // 
+            this.nudInterval.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.nudInterval.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudInterval.Location = new System.Drawing.Point(103, 57);
+            this.nudInterval.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudInterval.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudInterval.Name = "nudInterval";
+            this.nudInterval.Size = new System.Drawing.Size(120, 22);
+            this.nudInterval.TabIndex = 8;
+            this.nudInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nudInterval.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.nudInterval.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // labelSpeed
+            // 
+            this.labelSpeed.AutoSize = true;
+            this.labelSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelSpeed.Location = new System.Drawing.Point(10, 59);
+            this.labelSpeed.Name = "labelSpeed";
+            this.labelSpeed.Size = new System.Drawing.Size(92, 16);
+            this.labelSpeed.TabIndex = 7;
+            this.labelSpeed.Text = "Interval (ms)";
+            // 
+            // labelFPS
+            // 
+            this.labelFPS.AutoSize = true;
+            this.labelFPS.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelFPS.Location = new System.Drawing.Point(10, 181);
+            this.labelFPS.Name = "labelFPS";
+            this.labelFPS.Size = new System.Drawing.Size(97, 16);
+            this.labelFPS.TabIndex = 6;
+            this.labelFPS.Text = "FPS (GPS): 0";
             // 
             // cbIsGridDrawing
             // 
@@ -199,60 +251,22 @@
             this.timerGame.Interval = 50;
             this.timerGame.Tick += new System.EventHandler(this.gameTimer_Tick);
             // 
-            // labelFPS
-            // 
-            this.labelFPS.AutoSize = true;
-            this.labelFPS.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelFPS.Location = new System.Drawing.Point(10, 181);
-            this.labelFPS.Name = "labelFPS";
-            this.labelFPS.Size = new System.Drawing.Size(97, 16);
-            this.labelFPS.TabIndex = 6;
-            this.labelFPS.Text = "FPS (GPS): 0";
-            // 
             // timerFPS
             // 
             this.timerFPS.Interval = 1000;
             this.timerFPS.Tick += new System.EventHandler(this.timerFPS_Tick);
             // 
-            // nudInterval
+            // cbHeatmapMode
             // 
-            this.nudInterval.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.nudInterval.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.nudInterval.Location = new System.Drawing.Point(103, 57);
-            this.nudInterval.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.nudInterval.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.nudInterval.Name = "nudInterval";
-            this.nudInterval.Size = new System.Drawing.Size(120, 22);
-            this.nudInterval.TabIndex = 8;
-            this.nudInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nudInterval.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            this.nudInterval.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
-            // 
-            // labelSpeed
-            // 
-            this.labelSpeed.AutoSize = true;
-            this.labelSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelSpeed.Location = new System.Drawing.Point(10, 59);
-            this.labelSpeed.Name = "labelSpeed";
-            this.labelSpeed.Size = new System.Drawing.Size(92, 16);
-            this.labelSpeed.TabIndex = 7;
-            this.labelSpeed.Text = "Interval (ms)";
+            this.cbHeatmapMode.AutoSize = true;
+            this.cbHeatmapMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cbHeatmapMode.Location = new System.Drawing.Point(13, 148);
+            this.cbHeatmapMode.Name = "cbHeatmapMode";
+            this.cbHeatmapMode.Size = new System.Drawing.Size(89, 20);
+            this.cbHeatmapMode.TabIndex = 9;
+            this.cbHeatmapMode.Text = "Heatmap";
+            this.cbHeatmapMode.UseVisualStyleBackColor = true;
+            this.cbHeatmapMode.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // Form1
             // 
@@ -268,10 +282,10 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudDensity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudResolution)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -292,6 +306,7 @@
         private System.Windows.Forms.Timer timerFPS;
         private System.Windows.Forms.NumericUpDown nudInterval;
         private System.Windows.Forms.Label labelSpeed;
+        private System.Windows.Forms.CheckBox cbHeatmapMode;
     }
 }
 
